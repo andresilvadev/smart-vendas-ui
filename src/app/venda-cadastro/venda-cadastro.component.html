@@ -1,0 +1,30 @@
+<div class="ui-g">
+  <div class="ui-g-12">
+    <h1>Cadastro venda</h1>
+  </div>
+</div>
+
+<form action="">
+  <div class="ui-g">
+    <div class="ui-g-8 ui-fluid">
+      <label>Cliente</label>
+      <p-dropdown [options]="clientes" optionLabel="nome" [autoWidth]="false" placeholder="Selecione" id="cliente" name="cliente" [(ngModel)]="venda.cliente" required></p-dropdown>
+    </div>
+
+    <div class="ui-g-4 ui-fluid">
+      <label>Frete</label>
+      <input type="text" pInputText id="frete" name="frete" currencyMask  [options]="{prefix: '', thousands: '.', decimal: ',', allowNegative: false}" [(ngModel)]="venda.frete" required/>
+    </div>
+
+    <div class="ui-g-12">
+      <p-panel header="Itens">
+        <div class="ui-g">
+          <div class="ui-g-8 ui-fluid">
+            <label>Produto</label>
+            <p-dropdown id="produto" name="produto" [autoWidth]="false" placeholder="Selecione" [options]="produtos" optionLabel="nome" [(ngModel)]="item.produto"></p-dropdown>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+  </div>
+</form>
