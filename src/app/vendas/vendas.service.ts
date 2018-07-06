@@ -11,6 +11,10 @@ export class VendasService {
 
   constructor(private http: HttpClient) { }
 
+  adicionar(venda: any): Observable<any> {
+    return this.http.post<any>(`${this.api_url}/vendas`, venda);
+  }
+
   listar(): Observable<any> {
     return this.http.get<any>(`${this.api_url}/vendas`);
   }
