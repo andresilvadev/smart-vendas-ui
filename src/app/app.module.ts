@@ -16,6 +16,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { ButtonModule } from 'primeng/button';
 import { GrowlModule } from 'primeng/growl';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -44,6 +45,7 @@ registerLocaleData(localePt);
     PanelModule,
     ButtonModule,
     GrowlModule,
+    TooltipModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt' },

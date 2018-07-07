@@ -33,7 +33,7 @@ export class VendaCadastroComponent implements OnInit {
   }
 
   novaVenda() {
-    this.venda = { itens: [], frete: 0.0, total: 0.0 };
+    this.venda = { itens: [], frete: 0.0, total: 0.0, subtotal: 0.0 };
     this.item = {};
   }
 
@@ -48,6 +48,23 @@ export class VendaCadastroComponent implements OnInit {
     this.item = {};
 
     this.calcularTotal();
+    this.calcularSubTotal();
+  }
+
+  excluirItem(item) {    
+    var index: number = this.venda.itens.indexOf(item);
+    
+    // Remove item no array de itens
+    if (index !== -1) {
+      this.venda.itens.splice(index, 1);
+    }    
+    //console.log(index);
+
+    // Recalcula o valor total dos itens
+    this.calcularTotal();
+
+    // Recalcula o valor sub-total dos itens
+    this.calcularSubTotal();
   }
 
   calcularTotal() {
@@ -59,6 +76,14 @@ export class VendaCadastroComponent implements OnInit {
     this.venda.total = totalItens + this.venda.frete;
   }
 
+  calcularSubTotal() {
+    // map = tranformando array de itens em array de numeros
+    const subTotalItens = this.venda.itens
+      .map(i => (i.produto.valor * i.quantidade))
+      .reduce((total, valorCorrente) => total + valorCorrente, 0);
+
+    this.venda.subtotal = subTotalItens;
+  }
 
   adicionar(frm: FormGroup) {
     this.vendasService.adicionar(this.venda)
@@ -72,6 +97,7 @@ export class VendaCadastroComponent implements OnInit {
         // Menssagem
         this.messageService.add({
           severity: 'success',
+          summary:'Pedido Salvo',
           detail: 'Venda adicionada com sucesso'
         });
 
@@ -79,7 +105,5 @@ export class VendaCadastroComponent implements OnInit {
         this.vendaSalva.emit(response);
       });
   }
-
-
 
 }

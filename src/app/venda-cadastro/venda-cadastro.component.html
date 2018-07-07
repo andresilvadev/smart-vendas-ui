@@ -1,6 +1,6 @@
 <div class="ui-g">
   <div class="ui-g-12">
-    <h1>Cadastro venda</h1>
+    <h1>Inclusão Pedido Venda</h1>
   </div>
 </div>
 
@@ -13,7 +13,7 @@
 
     <div class="ui-g-4 ui-sm-12 ui-fluid">
       <label>Frete</label>
-      <input type="text" pInputText id="frete" name="frete" currencyMask  [options]="{prefix: '', thousands: '.', decimal: ',', allowNegative: false}" [(ngModel)]="venda.frete" required (ngModelChange)="calcularTotal()"/>
+      <input type="text" pInputText id="frete" name="frete" #frete currencyMask  [options]="{prefix: '', thousands: '.', decimal: ',', allowNegative: false}" [(ngModel)]="venda.frete" required (ngModelChange)="calcularTotal()"/>
     </div>
 
     <div class="ui-g-12">
@@ -27,12 +27,12 @@
 
           <div class="ui-g-3 ui-sm-12 ui-fluid">
             <label>Quantidade</label>
-            <input type="number" pInputText id="quantidade" name="quantidade" [(ngModel)]="item.quantidade" #quantidade/>
+            <input type="number" min="1" pInputText id="quantidade" name="quantidade" [(ngModel)]="item.quantidade" #quantidade/>
           </div>
 
           <div class="ui-g-1 ui-sm-4 ui-fluid">
             <br>
-            <button pButton type="button" icon="pi pi-plus" (click)="incluirItem()" [disabled]="!produto.value || !quantidade.value"></button>
+            <button pButton type="button" icon="pi pi-plus" (click)="incluirItem()" [disabled]="!produto.value || !quantidade.value" pTooltip="Incluir item de venda"></button>
           </div>
 
           <div class="ui-g-12 ui-fluid">
@@ -43,6 +43,7 @@
                   <th>Valor unitário</th>
                   <th>Quantidade</th>
                   <th>Total</th>
+                  <th class="acoes">Ações</th>
                 </tr>
               </ng-template>
 
@@ -52,12 +53,13 @@
                     <td><span class="ui-column-title">Valor</span>{{ item.produto.valor | number: '1.2-2' }}</td>
                     <td><span class="ui-column-title">Quantidade</span>{{ item.quantidade }}</td>
                     <td><span class="ui-column-title">Total</span>{{ item.total | number: '1.2-2'}}</td>
+                    <td class="text-center"><p-button icon="pi pi-times" styleClass="ui-button-danger" pTooltip="Excluir item da venda" (onClick)="excluirItem(item)"></p-button></td>                    
                   </tr>
               </ng-template>
 
               <ng-template pTemplate="emptymessage">
                 <tr>
-                  <td colspan="4">Nenhum item adicionado na venda.</td>
+                  <td colspan="5">Nenhum item adicionado na venda.</td>
                 </tr>
               </ng-template>
             </p-table>
@@ -68,12 +70,17 @@
     </div>
 
     <div class="ui-g-4 ui-g-offset-8 ui-sm-12 ui-sm-offset-0 ui-fluid">
-      <label>Total</label>
-      <input type="text" pInputText readonly [value]="venda.total | number:'1.2-2'" />
+      <label class="label-total">Valor frete: {{ frete.value }}</label> <br>      
+      <label class="label-total">Sub-total: &nbsp; {{ venda.subtotal | number:'1.2-2' }}</label>      
     </div>
 
-    <div class="ui-g-4">
-        <button pButton icon="pi pi-check" label="Salvar" [disabled]="frm.invalid || venda.itens.length === 0"></button>
+    <div class="ui-g-4 ui-g-offset-8 ui-sm-12 ui-sm-offset-0 ui-fluid">
+      <label class="label-total">TOTAL </label> <small>incluido valor do frete</small>
+      <input type="text" class="total" pInputText readonly [value]="venda.total | number:'1.2-2'" />
+    </div>
+
+    <div class="ui-g-4 ui-g-offset-8 ui-sm-12 ui-sm-offset-0 ui-fluid">
+        <button pButton icon="pi pi-check" label="Salvar" [disabled]="frm.invalid || venda.itens.length === 0" pTooltip="Salva uma nova venda"></button>
       </div>
   </div>
 </form>
